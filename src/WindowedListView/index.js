@@ -36,7 +36,6 @@ class WindowedListView extends Component {
 
   onScroll(detail) {
     const scrollOffsetTop = detail.target.scrollTop;
-    
     this.updatePositions(scrollOffsetTop)
   }
   
@@ -67,20 +66,17 @@ class WindowedListView extends Component {
     
     const paddingTop = this.state.itemHeight * this.state.start;
     const height = (this.props.items.length * this.state.itemHeight) - paddingTop;
-
-    if (this.state.itemHeight === 0) {
-      const item = this.props.items[0];
-      return (
-        <div className='listItem' style={{ opacity: 0 }}>
-          {this.props.renderChildren(item)}
-        </div>
-      );
-    }
+    const item = this.props.items[0];
 
     return (
       <div className='container' style={{ height: this.props.height }} onScroll={this.onScroll}>
         <div style={{ paddingTop: paddingTop, minHeight: height, maxHeight: height }}>
-          {items}
+          {this.state.itemHeight === 0 ?
+            <div className='listItem' style={{ opacity: 0 }}>
+              {this.props.renderChildren(item)}
+            </div>:
+            items
+          }
         </div>
       </div>
     );
